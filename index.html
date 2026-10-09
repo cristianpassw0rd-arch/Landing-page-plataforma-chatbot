@@ -1,11 +1,890 @@
-<!DOCTYPE html>
-<html lang="en">
+!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <title>Signy - Chatbot e IA para Lengua de Señas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-</body>
-</html>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chat-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pulse-effect {
+            animation: pulse-ring 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen selection:bg-brand-500 selection:text-white">
+
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/80 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25">
+                        <i class="fa-solid fa-hands-asl-interpreting text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-brand-700 to-accent-600 bg-clip-text text-transparent">Signy</span>
+                        <span class="text-xs px-2 py-0.5 ml-1.5 rounded-full bg-brand-100 text-brand-700 font-semibold border border-brand-200">AI Bot</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                    <a href="#inicio" class="hover:text-brand-600 transition-colors">Inicio</a>
+                    <a href="#caracteristicas" class="hover:text-brand-600 transition-colors">Funcionalidades</a>
+                    <a href="#simulador" class="hover:text-brand-600 transition-colors">Demo en Vivo</a>
+                    <a href="#impacto" class="hover:text-brand-600 transition-colors">Impacto</a>
+                    <a href="#testimonios" class="hover:text-brand-600 transition-colors">Comunidad</a>
+                    <a href="#precios" class="hover:text-brand-600 transition-colors">Planes</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="openChatModal()" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-700 hover:to-accent-600 shadow-md shadow-brand-500/20 hover:shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-comments mr-2"></i> Probar Demo
+                    </button>
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Nav -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Inicio</a>
+            <a href="#caracteristicas" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Funcionalidades</a>
+            <a href="#simulador" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Demo en Vivo</a>
+            <a href="#impacto" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Impacto</a>
+            <a href="#testimonios" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Comunidad</a>
+            <a href="#precios" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Planes</a>
+            <button onclick="openChatModal(); toggleMobileMenu();" class="w-full mt-2 py-3 rounded-xl font-semibold text-white bg-brand-600 text-center">
+                Probar Chatbot Gratis
+            </button>
+        </div>
+    </header>
+
+    <section id="inicio" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-brand-50/60 via-slate-50 to-slate-50">
+        <!-- Background Decorative Orbs -->
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none opacity-40 blur-3xl">
+            <div class="absolute w-72 h-72 rounded-full bg-brand-500/30 -top-10 left-10"></div>
+            <div class="absolute w-80 h-80 rounded-full bg-accent-400/30 top-20 right-10"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content Left -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100/80 border border-brand-200 text-brand-700 text-xs sm:text-sm font-medium shadow-sm">
+                        <span class="flex h-2 w-2 rounded-full bg-accent-500 animate-ping"></span>
+                        <span>IA accesible de última generación</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+                        Rompiendo barreras con <span class="bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-transparent">Inteligencia Artificial</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Conoce a <strong>Signy</strong>, tu asistente inteligente para aprender, traducir e interpretar Lengua de Señas en tiempo real. Comunicación bidireccional accesible para todos.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <button onclick="scrollToSimulator()" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-700 hover:to-accent-600 shadow-xl shadow-brand-500/25 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group">
+                            <i class="fa-solid fa-robot text-lg group-hover:rotate-12 transition-transform"></i>
+                            Probar Chatbot Gratis
+                        </button>
+                        
+                        <a href="#caracteristicas" class="w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-sm transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-play text-brand-600"></i>
+                            Conocer Funcionalidades
+                        </a>
+                    </div>
+
+                    <!-- Badges / Info -->
+                    <div class="pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-slate-500 text-xs font-medium">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-accent-500"></i>
+                            <span>LSE, LSM, ASL y más</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-accent-500"></i>
+                            <span>Reconocimiento por Cámara</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-check text-accent-500"></i>
+                            <span>Traducción Texto/Voz</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual Right -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <!-- Main Frame Card -->
+                        <div class="bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 relative z-10 space-y-5">
+                            <div class="flex items-center justify-between border-b pb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div class="w-12 h-12 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                                            <i class="fa-solid fa-hands-asl-interpreting"></i>
+                                        </div>
+                                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900">Signy Assistant</h3>
+                                        <p class="text-xs text-slate-500">Traductor & Tutor Interactivo</p>
+                                    </div>
+                                </div>
+                                <span class="bg-accent-50 text-accent-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-accent-200">En Vivo</span>
+                            </div>
+
+                            <!-- Animated Hand Graphic Container -->
+                            <div class="h-56 rounded-2xl bg-gradient-to-tr from-slate-900 to-brand-900 text-white flex flex-col items-center justify-center relative overflow-hidden p-4 group cursor-pointer shadow-inner" onclick="scrollToSimulator()">
+                                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                                
+                                <div class="w-24 h-24 rounded-full bg-brand-500/30 flex items-center justify-center mb-3 pulse-effect border border-brand-400/40">
+                                    <i class="fa-solid fa-hand text-5xl text-accent-400 transform group-hover:scale-110 transition-transform"></i>
+                                </div>
+                                
+                                <p class="text-sm font-medium text-slate-200 z-10">Haz clic para interactuar</p>
+                                <span class="text-xs text-brand-200 mt-1 z-10 bg-white/10 px-3 py-1 rounded-full border border-white/10">Traduciendo: "Hola, ¿Cómo estás?"</span>
+                            </div>
+
+                            <!-- Floating Badge 1 -->
+                            <div class="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-accent-100 text-accent-600 flex items-center justify-center">
+                                    <i class="fa-solid fa-camera text-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500 font-medium">Reconocimiento Visual</p>
+                                    <p class="text-sm font-bold text-slate-800">Detección de Manos 3D</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Background Card Layer -->
+                        <div class="absolute -bottom-4 -right-4 w-full h-full bg-gradient-to-tr from-brand-600 to-accent-500 rounded-3xl -z-10 opacity-30 blur-lg"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="simulador" class="py-16 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-brand-600 tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Simulador en Tiempo Real</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Prueba a Signy en Acción</h2>
+                <p class="text-slate-600 mt-3 text-base sm:text-lg">Selecciona una frase rápida o escribe cualquier texto para ver cómo nuestro chatbot simula la traducción en tiempo real con señas ilustradas.</p>
+            </div>
+
+            <!-- Chat Container Box -->
+            <div class="max-w-4xl mx-auto bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-800 grid md:grid-cols-12 min-h-[550px]">
+                
+                <!-- Left Panel: Info & Settings -->
+                <div class="md:col-span-4 bg-slate-950 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center text-white">
+                                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-base">Signy Bot</h3>
+                                <p class="text-xs text-slate-400">Asistente Virtual 24/7</p>
+                            </div>
+                        </div>
+
+                        <!-- Language Selector -->
+                        <div class="space-y-4">
+                            <label class="block text-xs font-semibold uppercase text-slate-400 tracking-wider">Selecciona Dialecto</label>
+                            <select id="sim-dialect" class="w-full bg-slate-900 text-white text-sm rounded-xl px-3.5 py-2.5 border border-slate-700 focus:outline-none focus:border-brand-500 transition-colors">
+                                <option value="LSE">🇪🇸 LSE - Lengua de Señas Española</option>
+                                <option value="LSM">🇲🇽 LSM - Lengua de Señas Mexicana</option>
+                                <option value="ASL">🇺🇸 ASL - American Sign Language</option>
+                                <option value="LSA">🇦🇷 LSA - Lengua de Señas Argentina</option>
+                            </select>
+
+                            <label class="block text-xs font-semibold uppercase text-slate-400 tracking-wider pt-2">Modo Activo</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-brand-400"></i> Texto a Señas</span>
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+                                    <span class="flex items-center gap-2"><i class="fa-solid fa-video text-accent-400"></i> Reconocimiento de Cámara</span>
+                                    <span class="text-slate-500">Simulado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Facts in Simulator -->
+                    <div class="pt-6 border-t border-slate-800/80 mt-6 hidden md:block">
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Tip: Puedes enviar expresiones completas o practicar la dactilología letra por letra.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Chat Thread & Input -->
+                <div class="md:col-span-8 flex flex-col justify-between bg-slate-900">
+                    
+                    <!-- Chat Header -->
+                    <div class="p-4 bg-slate-900/90 border-b border-slate-800/80 flex justify-between items-center px-6">
+                        <div class="flex items-center gap-2 text-xs text-slate-400">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            <span>Signy está listo para ayudarte</span>
+                        </div>
+                        <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1">
+                            <i class="fa-solid fa-trash-can"></i> Limpiar
+                        </button>
+                    </div>
+
+                    <!-- Messages Box -->
+                    <div id="sim-messages" class="p-6 space-y-4 overflow-y-auto max-h-[380px] chat-scroll flex-1">
+                        
+                        <!-- Initial Bot Message -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm space-y-3 shadow-md">
+                                <p>¡Hola! 👋 Soy <strong>Signy</strong>. Escribe una frase o pulsa un botón rápido para ver la traducción en señas.</p>
+                                
+                                <!-- Card Example -->
+                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/60 flex items-center gap-3">
+                                    <div class="w-14 h-14 bg-brand-900/60 rounded-lg flex items-center justify-center text-brand-300 text-2xl border border-brand-500/30">
+                                        <i class="fa-solid fa-hand-holding-heart"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-xs text-brand-400 font-semibold block">Seña Recomendada</span>
+                                        <span class="text-sm font-bold text-white">"Bienvenido / Hola"</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Quick Suggestions -->
+                    <div class="px-6 py-2 bg-slate-950/40 border-t border-slate-800/50 flex items-center gap-2 overflow-x-auto text-xs">
+                        <span class="text-slate-500 flex-shrink-0 font-medium">Frases rápidas:</span>
+                        <button onclick="sendQuickMessage('Hola')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">👋 Hola</button>
+                        <button onclick="sendQuickMessage('Gracias')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">🙏 Gracias</button>
+                        <button onclick="sendQuickMessage('Por favor')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">🤝 Por favor</button>
+                        <button onclick="sendQuickMessage('¿Cómo estás?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">❓ ¿Cómo estás?</button>
+                    </div>
+
+                    <!-- Input Box -->
+                    <form id="sim-form" onsubmit="handleChatSubmit(event)" class="p-4 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+                        <button type="button" onclick="simulateVoiceInput()" title="Usar Micrófono" class="p-3 text-slate-400 hover:text-brand-400 bg-slate-900 hover:bg-slate-800 rounded-xl transition-colors">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <input id="sim-input" type="text" placeholder="Escribe un mensaje para traducir..." class="flex-1 bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-brand-500 transition-colors">
+                        <button type="submit" class="px-5 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold transition-colors flex items-center gap-2 shadow-lg shadow-brand-600/30">
+                            <span>Enviar</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-accent-600 tracking-wider uppercase bg-accent-50 px-3 py-1 rounded-full border border-accent-200">Tecnología Inclusiva</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Características Principales</h2>
+                <p class="text-slate-600 mt-3 text-lg">Nuestra plataforma integra las herramientas más avanzadas de Visión por Computadora y Procesamiento de Lenguaje Natural.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Traducción Bidireccional</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Convierte texto y notas de voz directamente a animaciones claras en lengua de señas, y viceversa, instantáneamente.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-accent-100 text-accent-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-camera-rotate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Detección por Cámara</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        La IA analiza los movimientos de tus manos, postura y gestos faciales a través de la webcam con alta precisión.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Aprendizaje Gamificado</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Lecciones cortas diarias, cuestionarios interactivos y feedback corregido por la IA para mejorar tu fluidez.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Multi-Dialecto</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Soporte especializado para LSE (España), LSM (México), ASL (Estados Unidos), LSA (Argentina) y más regiones.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="impacto" class="py-20 bg-gradient-to-r from-brand-900 via-slate-900 to-brand-950 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-xs font-bold text-accent-400 tracking-wider uppercase bg-accent-500/10 px-3 py-1 rounded-full border border-accent-500/20">Impacto Social</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+                        Construyendo un mundo sin barreras de comunicación
+                    </h2>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                        Más de 70 millones de personas sorda en todo el mundo utilizan la lengua de señas como su primer idioma. Signy conecta a la comunidad sorda con oyentes en colegios, empresas y entornos de salud.
+                    </p>
+                    <div class="pt-4">
+                        <a href="#precios" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-500 hover:bg-accent-600 text-white font-bold transition-all shadow-lg shadow-accent-500/30">
+                            Únete a la Inclusión <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="lg:col-span-6 grid grid-cols-2 gap-6">
+                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
+                        <div class="text-4xl sm:text-5xl font-black text-accent-400 mb-2">+50K</div>
+                        <div class="text-slate-300 font-medium text-sm">Usuarios Activos</div>
+                    </div>
+
+                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
+                        <div class="text-4xl sm:text-5xl font-black text-brand-400 mb-2">98.4%</div>
+                        <div class="text-slate-300 font-medium text-sm">Precisión de Reconocimiento</div>
+                    </div>
+
+                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
+                        <div class="text-4xl sm:text-5xl font-black text-indigo-400 mb-2">12+</div>
+                        <div class="text-slate-300 font-medium text-sm">Dialectos Soportados</div>
+                    </div>
+
+                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
+                        <div class="text-4xl sm:text-5xl font-black text-rose-400 mb-2">1M+</div>
+                        <div class="text-slate-300 font-medium text-sm">Traducciones Realizadas</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-brand-600 tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Testimonios</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Lo que dice nuestra comunidad</h2>
+                <p class="text-slate-600 mt-3 text-lg">Estudiantes, educadores y miembros de la comunidad sorda comparten su experiencia con Signy.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-amber-400 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "Como profesora, Signy me ha permitido comunicarme con fluidez con mis estudiantes sordos en el aula. El reconocedor de cámara es impresionante."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" alt="Lucía M." class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Lucía Méndez</h4>
+                            <p class="text-xs text-slate-500">Docente de Educación Inclusiva</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-amber-400 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "Por fin existe una herramienta que realmente entiende la estructura gramatical de la LSE y no solo traduce palabra por palabra."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" alt="Carlos R." class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Carlos Ruiz</h4>
+                            <p class="text-xs text-slate-500">Activista Comunidad Sorda</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-amber-400 space-x-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-700 text-sm leading-relaxed italic">
+                            "Empecé desde cero para poder hablar con mi sobrina. Las lecciones del bot y los ejercicios prácticos hacen que aprender sea súper ameno."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150" alt="Elena P." class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Elena Pardo</h4>
+                            <p class="text-xs text-slate-500">Estudiante de LSM</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="precios" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-accent-600 tracking-wider uppercase bg-accent-50 px-3 py-1 rounded-full border border-accent-200">Planes Accesibles</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Empieza Gratis Hoy Mismo</h2>
+                <p class="text-slate-600 mt-3 text-lg">Elige el plan que mejor se adapte a tus necesidades de aprendizaje o comunicación.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 max-w-4xl mx-auto gap-8 items-stretch">
+                
+                <!-- Free Plan -->
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900">Básico Gratuito</h3>
+                        <p class="text-slate-500 text-sm mt-1">Ideal para principiantes y consultas rápidas.</p>
+                        
+                        <div class="my-6">
+                            <span class="text-4xl font-black text-slate-900">$0</span>
+                            <span class="text-slate-500 font-medium"> / para siempre</span>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-slate-700">
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-emerald-500"></i>
+                                <span>Traducción texto a señas (Hasta 30/día)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-emerald-500"></i>
+                                <span>Acceso a diccionario básico (LSE y LSM)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-emerald-500"></i>
+                                <span>Simulador interactivo del Chatbot</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-400">
+                                <i class="fa-solid fa-xmark"></i>
+                                <span>Reconocimiento por webcam en tiempo real</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="openChatModal()" class="mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 transition-colors text-center">
+                        Comenzar Gratis
+                    </button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-gradient-to-b from-brand-900 to-slate-900 text-white p-8 rounded-3xl border border-brand-700 flex flex-col justify-between relative shadow-2xl">
+                    <div class="absolute -top-3.5 right-8 bg-gradient-to-r from-accent-500 to-emerald-400 text-slate-950 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        Más Popular
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold">Pro Inclusivo</h3>
+                        <p class="text-brand-200 text-sm mt-1">Para aprendizaje intensivo y profesionales.</p>
+                        
+                        <div class="my-6">
+                            <span class="text-4xl font-black">$9.99</span>
+                            <span class="text-slate-300 font-medium"> / mes</span>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-slate-200">
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-accent-400"></i>
+                                <span>Traducción ilimitada Texto, Voz y Señas</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-accent-400"></i>
+                                <span>Reconocimiento por Webcam 3D e IA</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-accent-400"></i>
+                                <span>Todos los dialectos (LSE, LSM, ASL, LSA)</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fa-solid fa-check text-accent-400"></i>
+                                <span>Corrección de postura y feedback en directo</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button onclick="alert('¡Gracias por tu interés en Signy Pro! Próximamente habilitaremos la pasarela de pago.')" class="mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-500 hover:to-accent-400 transition-all shadow-lg shadow-brand-500/30 text-center">
+                        Probar 7 Días Gratis
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                
+                <!-- Col 1 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-hands-asl-interpreting"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white tracking-tight">Signy</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Impulsando la accesibilidad universal mediante Inteligencia Artificial y Lengua de Señas.
+                    </p>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#inicio" class="hover:text-white transition-colors">Inicio</a></li>
+                        <li><a href="#caracteristicas" class="hover:text-white transition-colors">Funcionalidades</a></li>
+                        <li><a href="#simulador" class="hover:text-white transition-colors">Demo Interactiva</a></li>
+                        <li><a href="#precios" class="hover:text-white transition-colors">Planes de Acceso</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Recursos</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition-colors">Diccionario LSE</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Guía de Accesibilidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Documentación de API</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog sobre Inclusión</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Comunidad</h4>
+                    <div class="flex space-x-4 text-lg">
+                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-4">Accesibilidad adaptada según pautas WCAG 2.1 AA.</p>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 Signy AI. Todos los derechos reservados.</p>
+                <div class="flex space-x-6 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-slate-400">Privacidad</a>
+                    <a href="#" class="hover:text-slate-400">Términos</a>
+                    <a href="#" class="hover:text-slate-400">Accesibilidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fixed bottom-6 right-6 z-50">
+        <button onclick="toggleFloatingChat()" class="relative group bg-gradient-to-r from-brand-600 to-accent-500 text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-transform flex items-center justify-center focus:outline-none">
+            <i class="fa-solid fa-comments text-2xl"></i>
+            <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-500"></span>
+            </span>
+        </button>
+    </div>
+
+    <div id="floating-chat-modal" class="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 hidden flex-col overflow-hidden transition-all">
+        <!-- Header -->
+        <div class="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white text-xs">
+                    <i class="fa-solid fa-hands-asl-interpreting"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white text-sm">Signy Widget</h4>
+                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Asistente Activo
+                    </span>
+                </div>
+            </div>
+            <button onclick="toggleFloatingChat()" class="text-slate-400 hover:text-white p-1">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="widget-messages" class="p-4 h-72 overflow-y-auto chat-scroll space-y-3 text-xs bg-slate-900">
+            <div class="bg-slate-800 text-slate-200 p-3 rounded-xl max-w-[85%]">
+                ¡Hola! 👋 ¿En qué expresión de Lengua de Señas deseas practicar hoy?
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <form onsubmit="handleWidgetSubmit(event)" class="p-3 bg-slate-950 border-t border-slate-800 flex gap-2">
+            <input id="widget-input" type="text" placeholder="Escribe algo..." class="flex-1 bg-slate-900 border border-slate-800 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-brand-500">
+            <button type="submit" class="bg-brand-600 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-brand-500">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Simulated dictionary responses for signs
+        const signDictionary = {
+            'hola': {
+                title: 'Hola',
+                icon: 'fa-hand-wave',
+                description: 'Lleva la mano dominante hacia la sien y desplázala ligeramente hacia afuera extendiendo los dedos.'
+            },
+            'gracias': {
+                title: 'Gracias',
+                icon: 'fa-hands-clapping',
+                description: 'Toca suavemente la barbilla con las yemas de los dedos y extiende la mano hacia la otra persona.'
+            },
+            'por favor': {
+                title: 'Por favor',
+                icon: 'fa-hands-holding-circle',
+                description: 'Junta las palmas de las manos a la altura del pecho en gesto de amabilidad.'
+            },
+            '¿cómo estás?': {
+                title: '¿Cómo estás?',
+                icon: 'fa-circle-question',
+                description: 'Realiza la seña de "¿Cómo?" seguido del gesto de actitud o bienestar con ambos pulgares arriba.'
+            }
+        };
+
+        // Scroll smooth helper
+        function scrollToSimulator() {
+            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Toggle mobile navbar
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Floating Chat Widget Toggle
+        function toggleFloatingChat() {
+            const widget = document.getElementById('floating-chat-modal');
+            widget.classList.toggle('hidden');
+            widget.classList.toggle('flex');
+        }
+
+        function openChatModal() {
+            const widget = document.getElementById('floating-chat-modal');
+            if (widget.classList.contains('hidden')) {
+                widget.classList.remove('hidden');
+                widget.classList.add('flex');
+            }
+        }
+
+        // Chat Simulator Logic
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('sim-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMessageToSim('user', text);
+            input.value = '';
+
+            // Simulate Bot thinking and responding
+            setTimeout(() => {
+                respondToText(text.toLowerCase());
+            }, 600);
+        }
+
+        function sendQuickMessage(text) {
+            addMessageToSim('user', text);
+            setTimeout(() => {
+                respondToText(text.toLowerCase());
+            }, 500);
+        }
+
+        function addMessageToSim(sender, text, cardData = null) {
+            const container = document.getElementById('sim-messages');
+            const msgDiv = document.createElement('div');
+
+            if (sender === 'user') {
+                msgDiv.className = 'flex items-start justify-end gap-3';
+                msgDiv.innerHTML = `
+                    <div class="bg-brand-600 text-white rounded-2xl rounded-tr-none p-4 max-w-[85%] text-sm shadow-md">
+                        ${escapeHtml(text)}
+                    </div>
+                `;
+            } else {
+                msgDiv.className = 'flex items-start gap-3';
+                let cardHTML = '';
+                if (cardData) {
+                    cardHTML = `
+                        <div class="mt-3 bg-slate-900/90 p-3.5 rounded-xl border border-brand-500/30 flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-tr from-brand-600 to-accent-500 rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0">
+                                <i class="fa-solid ${cardData.icon}"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-brand-400 font-semibold block">Traducción a Señas (${document.getElementById('sim-dialect').value})</span>
+                                <h5 class="text-sm font-bold text-white">${cardData.title}</h5>
+                                <p class="text-xs text-slate-300 mt-1">${cardData.description}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                msgDiv.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm shadow-md">
+                        <p>${text}</p>
+                        ${cardHTML}
+                    </div>
+                `;
+            }
+
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function respondToText(text) {
+            let foundKey = Object.keys(signDictionary).find(key => text.includes(key));
+            const dialect = document.getElementById('sim-dialect').value;
+
+            if (foundKey) {
+                const data = signDictionary[foundKey];
+                addMessageToSim('bot', `Aquí tienes la interpretación correspondiente en <strong>${dialect}</strong>:`, data);
+            } else {
+                // Default dactilology or general response
+                const fallbackData = {
+                    title: `Señas para: "${text.substring(0, 15)}"`,
+                    icon: 'fa-hands',
+                    description: `Analizando estructura sintáctica en ${dialect}. Generando secuencia de señas y postura recomendada.`
+                };
+                addMessageToSim('bot', `Procesé tu consulta "${escapeHtml(text)}". Aquí está la simulación de traducción:`, fallbackData);
+            }
+        }
+
+        function simulateVoiceInput() {
+            const input = document.getElementById('sim-input');
+            input.placeholder = "Escuchando voz...";
+            setTimeout(() => {
+                input.value = "Gracias por tu ayuda";
+                input.placeholder = "Escribe un mensaje para traducir...";
+            }, 1500);
+        }
+
+        function clearChat() {
+            const container = document.getElementById('sim-messages');
+            container.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm space-y-2 shadow-md">
+                        <p>Chat reiniciado. ¿En qué seña deseas practicar?</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Floating Widget Handler
+        function handleWidgetSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('widget-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const container = document.getElementById('widget-messages');
+            
