@@ -1,15 +1,15 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signy - Chatbot e IA para Lengua de Señas</title>
+    <title>ISN Nicaragua - IA & Lengua de Señas Escolar</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons CDN -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -17,18 +17,22 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#f0f3ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
+                        nicaragua: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0067c6', // Azul patrio / institucional
+                            600: '#0052a3',
+                            700: '#003e80',
+                            900: '#002552',
                         },
                         accent: {
-                            400: '#2dd4bf',
-                            500: '#14b8a6',
-                            600: '#0d9488',
+                            400: '#14b8a6', // Turquesa accesibilidad
+                            500: '#0d9488',
+                            600: '#0f766e',
+                        },
+                        sun: {
+                            400: '#fbbf24', // Cálido solar
+                            500: '#f59e0b',
                         }
                     },
                     fontFamily: {
@@ -39,183 +43,191 @@
         }
     </script>
     <style>
-        .chat-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .chat-scroll::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-        }
-        .chat-scroll::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.3);
-            border-radius: 10px;
-        }
-        .chat-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.5);
-        }
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.03); }
+        .chat-scroll::-webkit-scrollbar-thumb { background: rgba(0, 103, 198, 0.3); border-radius: 10px; }
+        .chat-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0, 103, 198, 0.6); }
+        
         @keyframes pulse-ring {
             0% { transform: scale(0.95); opacity: 0.8; }
             50% { transform: scale(1.05); opacity: 0.4; }
             100% { transform: scale(0.95); opacity: 0.8; }
         }
-        .pulse-effect {
-            animation: pulse-ring 3s infinite ease-in-out;
-        }
+        .pulse-effect { animation: pulse-ring 3s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 antialiased font-sans flex flex-col min-h-screen selection:bg-nicaragua-500 selection:text-white">
 
-    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/80 transition-all">
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/90 border-b border-slate-200/80 transition-all shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25">
-                        <i class="fa-solid fa-hands-asl-interpreting text-xl"></i>
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-nicaragua-600 via-nicaragua-500 to-accent-400 flex items-center justify-center text-white shadow-lg shadow-nicaragua-500/30">
+                        <i class="fa-solid fa-hands-asl-interpreting text-2xl"></i>
                     </div>
                     <div>
-                        <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-brand-700 to-accent-600 bg-clip-text text-transparent">Signy</span>
-                        <span class="text-xs px-2 py-0.5 ml-1.5 rounded-full bg-brand-100 text-brand-700 font-semibold border border-brand-200">AI Bot</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-nicaragua-700 via-nicaragua-600 to-accent-600 bg-clip-text text-transparent">ISN Educativo</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-nicaragua-100 text-nicaragua-700 font-extrabold border border-nicaragua-200 uppercase">🇳🇮 Nicaragua</span>
+                        </div>
+                        <p class="text-[11px] font-medium text-slate-500">Idioma de Señas Nicaragüense en las Escuelas</p>
                     </div>
                 </div>
 
                 <!-- Navigation Links -->
-                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-                    <a href="#inicio" class="hover:text-brand-600 transition-colors">Inicio</a>
-                    <a href="#caracteristicas" class="hover:text-brand-600 transition-colors">Funcionalidades</a>
-                    <a href="#simulador" class="hover:text-brand-600 transition-colors">Demo en Vivo</a>
-                    <a href="#impacto" class="hover:text-brand-600 transition-colors">Impacto</a>
-                    <a href="#testimonios" class="hover:text-brand-600 transition-colors">Comunidad</a>
-                    <a href="#precios" class="hover:text-brand-600 transition-colors">Planes</a>
+                <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold text-slate-600">
+                    <a href="#inicio" class="hover:text-nicaragua-600 transition-colors">Inicio</a>
+                    <a href="#simulador" class="hover:text-nicaragua-600 transition-colors">Chatbot ISN</a>
+                    <a href="#departamentos" class="hover:text-nicaragua-600 transition-colors">Departamentos</a>
+                    <a href="#historia" class="hover:text-nicaragua-600 transition-colors">Historia del ISN</a>
+                    <a href="#escuelas" class="hover:text-nicaragua-600 transition-colors">Centros Especiales</a>
                 </nav>
 
-                <!-- Action Button -->
-                <div class="flex items-center space-x-4">
-                    <button onclick="openChatModal()" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-700 hover:to-accent-600 shadow-md shadow-brand-500/20 hover:shadow-lg hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5">
-                        <i class="fa-solid fa-comments mr-2"></i> Probar Demo
-                    </button>
-                    <!-- Mobile menu button -->
-                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
-                        <i class="fa-solid fa-bars text-xl"></i>
+                <!-- Department Selector Quick Header Badge -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <div class="bg-nicaragua-50 border border-nicaragua-200 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs">
+                        <i class="fa-solid fa-location-dot text-nicaragua-600"></i>
+                        <span class="text-slate-500 font-medium">Depto:</span>
+                        <strong id="header-dept-label" class="text-nicaragua-700 font-bold">Managua</strong>
+                    </div>
+                    <button onclick="scrollToSimulator()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-nicaragua-600 to-accent-500 hover:from-nicaragua-700 hover:to-accent-600 shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-robot"></i> Probar Chatbot
                     </button>
                 </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
             </div>
         </div>
 
         <!-- Mobile Menu Nav -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
-            <a href="#inicio" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Inicio</a>
-            <a href="#caracteristicas" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Funcionalidades</a>
-            <a href="#simulador" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Demo en Vivo</a>
-            <a href="#impacto" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Impacto</a>
-            <a href="#testimonios" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Comunidad</a>
-            <a href="#precios" class="block py-2 text-slate-700 font-medium hover:text-brand-600">Planes</a>
-            <button onclick="openChatModal(); toggleMobileMenu();" class="w-full mt-2 py-3 rounded-xl font-semibold text-white bg-brand-600 text-center">
-                Probar Chatbot Gratis
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 shadow-xl">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-nicaragua-600">Inicio</a>
+            <a href="#simulador" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-nicaragua-600">Chatbot ISN</a>
+            <a href="#departamentos" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-nicaragua-600">Recursos por Departamento</a>
+            <a href="#historia" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-nicaragua-600">Historia del ISN</a>
+            <a href="#escuelas" onclick="toggleMobileMenu()" class="block py-2 text-slate-700 font-medium hover:text-nicaragua-600">Centros Especiales</a>
+            <button onclick="scrollToSimulator(); toggleMobileMenu();" class="w-full mt-2 py-3 rounded-xl font-bold text-white bg-nicaragua-600 text-center flex justify-center items-center gap-2">
+                <i class="fa-solid fa-robot"></i> Probar Chatbot
             </button>
         </div>
     </header>
 
-    <section id="inicio" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-brand-50/60 via-slate-50 to-slate-50">
-        <!-- Background Decorative Orbs -->
-        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none opacity-40 blur-3xl">
-            <div class="absolute w-72 h-72 rounded-full bg-brand-500/30 -top-10 left-10"></div>
-            <div class="absolute w-80 h-80 rounded-full bg-accent-400/30 top-20 right-10"></div>
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative pt-10 pb-16 md:pt-16 md:pb-24 overflow-hidden bg-gradient-to-b from-nicaragua-50/80 via-slate-50 to-slate-50">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none opacity-30 blur-3xl">
+            <div class="absolute w-80 h-80 rounded-full bg-nicaragua-500/40 -top-10 left-10"></div>
+            <div class="absolute w-96 h-96 rounded-full bg-accent-400/40 top-20 right-10"></div>
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-12 gap-12 items-center">
                 
-                <!-- Hero Content Left -->
+                <!-- Left Text -->
                 <div class="lg:col-span-7 text-center lg:text-left space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100/80 border border-brand-200 text-brand-700 text-xs sm:text-sm font-medium shadow-sm">
-                        <span class="flex h-2 w-2 rounded-full bg-accent-500 animate-ping"></span>
-                        <span>IA accesible de última generación</span>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-nicaragua-100 border border-nicaragua-200 text-nicaragua-800 text-xs sm:text-sm font-semibold shadow-sm">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-accent-500 animate-ping"></span>
+                        <span>🇳🇮 Educación Inclusiva Escolar Nicaragua</span>
                     </div>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-                        Rompiendo barreras con <span class="bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-transparent">Inteligencia Artificial</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+                        Aprende e Interpreta el <span class="bg-gradient-to-r from-nicaragua-600 via-nicaragua-500 to-accent-500 bg-clip-text text-transparent">Idioma de Señas Nicaragüense</span> en las Escuelas
                     </h1>
 
-                    <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                        Conoce a <strong>Signy</strong>, tu asistente inteligente para aprender, traducir e interpretar Lengua de Señas en tiempo real. Comunicación bidireccional accesible para todos.
+                    <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Un chatbot con IA diseñado especialmente para docentes, estudiantes y familias en Nicaragua. Aprende vocabulario escolar de ISN, conecta con las escuelas de educación especial de tu departamento y fomenta aulas 100% inclusivas.
                     </p>
 
-                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                        <button onclick="scrollToSimulator()" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-700 hover:to-accent-600 shadow-xl shadow-brand-500/25 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group">
-                            <i class="fa-solid fa-robot text-lg group-hover:rotate-12 transition-transform"></i>
-                            Probar Chatbot Gratis
-                        </button>
-                        
-                        <a href="#caracteristicas" class="w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-sm transition-all text-center flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-circle-play text-brand-600"></i>
-                            Conocer Funcionalidades
-                        </a>
+                    <!-- Interactive Quick Setup Bar -->
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xl max-w-xl mx-auto lg:mx-0 space-y-3">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders text-nicaragua-600"></i> Configura tu experiencia educativa:
+                        </p>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <!-- Hero Dept Selector -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Tu Departamento:</label>
+                                <select id="hero-dept-select" onchange="syncDepartment(this.value)" class="w-full bg-slate-50 text-slate-800 text-xs font-semibold rounded-xl p-2.5 border border-slate-300 focus:outline-none focus:border-nicaragua-500">
+                                    <!-- Options generated dynamically -->
+                                </select>
+                            </div>
+                            <!-- Hero Gender Selector -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Avatar del Intérprete:</label>
+                                <select id="hero-gender-select" onchange="syncGender(this.value)" class="w-full bg-slate-50 text-slate-800 text-xs font-semibold rounded-xl p-2.5 border border-slate-300 focus:outline-none focus:border-nicaragua-500">
+                                    <option value="femenino">👩 Intérprete Femenina (Profesora)</option>
+                                    <option value="masculino">👨 Intérprete Masculino (Profesor)</option>
+                                    <option value="inclusivo">🧑 Avatar Neutro Inclusivo</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Badges / Info -->
-                    <div class="pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-slate-500 text-xs font-medium">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-check text-accent-500"></i>
-                            <span>LSE, LSM, ASL y más</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-check text-accent-500"></i>
-                            <span>Reconocimiento por Cámara</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-check text-accent-500"></i>
-                            <span>Traducción Texto/Voz</span>
-                        </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <button onclick="scrollToSimulator()" class="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-nicaragua-600 to-accent-500 hover:from-nicaragua-700 hover:to-accent-600 shadow-xl shadow-nicaragua-500/25 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-comments text-lg"></i>
+                            Abrir Chatbot en Vivo
+                        </button>
+                        
+                        <a href="#escuelas" class="w-full sm:w-auto px-7 py-4 rounded-xl font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 shadow-sm transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-school text-nicaragua-600"></i>
+                            Escuelas por Departamento
+                        </a>
                     </div>
                 </div>
 
-                <!-- Hero Visual Right -->
+                <!-- Right Hero Graphic -->
                 <div class="lg:col-span-5 relative flex justify-center">
                     <div class="relative w-full max-w-md">
-                        <!-- Main Frame Card -->
-                        <div class="bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 relative z-10 space-y-5">
+                        <!-- Card Container -->
+                        <div class="bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 space-y-5 relative z-10">
+                            
                             <div class="flex items-center justify-between border-b pb-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="relative">
-                                        <div class="w-12 h-12 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                                            <i class="fa-solid fa-hands-asl-interpreting"></i>
-                                        </div>
-                                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                                    <div id="hero-avatar-badge" class="w-12 h-12 rounded-2xl bg-nicaragua-600 flex items-center justify-center text-white text-2xl shadow-md transition-all">
+                                        <i class="fa-solid fa-chalkboard-user"></i>
                                     </div>
                                     <div>
-                                        <h3 class="font-bold text-slate-900">Signy Assistant</h3>
-                                        <p class="text-xs text-slate-500">Traductor & Tutor Interactivo</p>
+                                        <h3 id="hero-avatar-title" class="font-extrabold text-slate-900 text-sm">Docente ISN Nicaragua</h3>
+                                        <p id="hero-avatar-dept" class="text-xs text-nicaragua-600 font-semibold">Managua • Escuela Inclusiva</p>
                                     </div>
                                 </div>
-                                <span class="bg-accent-50 text-accent-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-accent-200">En Vivo</span>
+                                <span class="bg-emerald-50 text-emerald-600 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> En Vivo
+                                </span>
                             </div>
 
-                            <!-- Animated Hand Graphic Container -->
-                            <div class="h-56 rounded-2xl bg-gradient-to-tr from-slate-900 to-brand-900 text-white flex flex-col items-center justify-center relative overflow-hidden p-4 group cursor-pointer shadow-inner" onclick="scrollToSimulator()">
-                                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                                
-                                <div class="w-24 h-24 rounded-full bg-brand-500/30 flex items-center justify-center mb-3 pulse-effect border border-brand-400/40">
-                                    <i class="fa-solid fa-hand text-5xl text-accent-400 transform group-hover:scale-110 transition-transform"></i>
+                            <!-- Interactive Avatar Preview Box -->
+                            <div class="h-60 rounded-2xl bg-gradient-to-tr from-nicaragua-900 via-slate-900 to-nicaragua-800 text-white flex flex-col items-center justify-center p-6 text-center relative overflow-hidden group shadow-inner">
+                                <div class="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mb-3 pulse-effect border border-white/20">
+                                    <i id="hero-avatar-icon" class="fa-solid fa-user-graduate text-4xl text-accent-400"></i>
                                 </div>
-                                
-                                <p class="text-sm font-medium text-slate-200 z-10">Haz clic para interactuar</p>
-                                <span class="text-xs text-brand-200 mt-1 z-10 bg-white/10 px-3 py-1 rounded-full border border-white/10">Traduciendo: "Hola, ¿Cómo estás?"</span>
+                                <span id="hero-avatar-gender-text" class="text-xs font-bold text-accent-300 uppercase tracking-wider">Intérprete Femenina</span>
+                                <h4 class="text-base font-extrabold text-white mt-1">"Señas para el Aula Escolar"</h4>
+                                <p id="hero-avatar-desc" class="text-xs text-slate-300 mt-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+                                    Muestra de seña: <strong>"Escuela / Maestro"</strong> (ISN)
+                                </p>
                             </div>
 
-                            <!-- Floating Badge 1 -->
-                            <div class="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl shadow-lg border border-slate-100 flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-accent-100 text-accent-600 flex items-center justify-center">
-                                    <i class="fa-solid fa-camera text-lg"></i>
+                            <!-- Feature list under hero card -->
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                    <span class="text-slate-500 block">Vocabulario</span>
+                                    <strong class="text-slate-800">100% ISN Nicaragüense</strong>
                                 </div>
-                                <div>
-                                    <p class="text-xs text-slate-500 font-medium">Reconocimiento Visual</p>
-                                    <p class="text-sm font-bold text-slate-800">Detección de Manos 3D</p>
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                    <span class="text-slate-500 block">Adaptación</span>
+                                    <strong id="hero-dept-count" class="text-slate-800">17 Departamentos</strong>
                                 </div>
                             </div>
+
                         </div>
-
-                        <!-- Secondary Background Card Layer -->
-                        <div class="absolute -bottom-4 -right-4 w-full h-full bg-gradient-to-tr from-brand-600 to-accent-500 rounded-3xl -z-10 opacity-30 blur-lg"></div>
+                        <div class="absolute -bottom-4 -right-4 w-full h-full bg-gradient-to-tr from-nicaragua-600 to-accent-500 rounded-3xl -z-10 opacity-30 blur-lg"></div>
                     </div>
                 </div>
 
@@ -223,611 +235,717 @@
         </div>
     </section>
 
+    <!-- CHATBOT SIMULATOR SECTION -->
     <section id="simulador" class="py-16 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-12">
-                <span class="text-xs font-bold text-brand-600 tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Simulador en Tiempo Real</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Prueba a Signy en Acción</h2>
-                <p class="text-slate-600 mt-3 text-base sm:text-lg">Selecciona una frase rápida o escribe cualquier texto para ver cómo nuestro chatbot simula la traducción en tiempo real con señas ilustradas.</p>
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-extrabold text-nicaragua-600 tracking-wider uppercase bg-nicaragua-50 px-3.5 py-1.5 rounded-full border border-nicaragua-200">
+                    <i class="fa-solid fa-robot mr-1"></i> Asistente Virtual Interactivo
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Chatbot Educativo ISN Nicaragua</h2>
+                <p class="text-slate-600 mt-3 text-base sm:text-lg">
+                    Realiza consultas sobre señas escolares, historia del ISN en Nicaragua o recursos específicos de tu departamento.
+                </p>
             </div>
 
-            <!-- Chat Container Box -->
-            <div class="max-w-4xl mx-auto bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-800 grid md:grid-cols-12 min-h-[550px]">
+            <!-- Main Chat UI Container -->
+            <div class="max-w-5xl mx-auto bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 overflow-hidden grid md:grid-cols-12 min-h-[620px]">
                 
-                <!-- Left Panel: Info & Settings -->
+                <!-- Left Column: Department & Sex Selectors & Status -->
                 <div class="md:col-span-4 bg-slate-950 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
-                    <div>
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center text-white">
-                                <i class="fa-solid fa-hands-asl-interpreting"></i>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <div id="sim-avatar-bg" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-nicaragua-600 to-accent-500 flex items-center justify-center text-white text-xl shadow-lg">
+                                <i id="sim-avatar-header-icon" class="fa-solid fa-user-nurse"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-white text-base">Signy Bot</h3>
-                                <p class="text-xs text-slate-400">Asistente Virtual 24/7</p>
+                                <h3 id="sim-avatar-name" class="font-bold text-white text-base">Asistente ISN</h3>
+                                <p id="sim-avatar-dept-badge" class="text-xs text-accent-400 font-semibold">Managua, Nicaragua</p>
                             </div>
                         </div>
 
-                        <!-- Language Selector -->
-                        <div class="space-y-4">
-                            <label class="block text-xs font-semibold uppercase text-slate-400 tracking-wider">Selecciona Dialecto</label>
-                            <select id="sim-dialect" class="w-full bg-slate-900 text-white text-sm rounded-xl px-3.5 py-2.5 border border-slate-700 focus:outline-none focus:border-brand-500 transition-colors">
-                                <option value="LSE">🇪🇸 LSE - Lengua de Señas Española</option>
-                                <option value="LSM">🇲🇽 LSM - Lengua de Señas Mexicana</option>
-                                <option value="ASL">🇺🇸 ASL - American Sign Language</option>
-                                <option value="LSA">🇦🇷 LSA - Lengua de Señas Argentina</option>
+                        <!-- Selector 1: Departamento de Nicaragua -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-extrabold uppercase text-slate-400 tracking-wider">
+                                <i class="fa-solid fa-map-location-dot text-nicaragua-400 mr-1"></i> 1. Selecciona Departamento:
+                            </label>
+                            <select id="sim-dept-select" onchange="updateDepartment(this.value)" class="w-full bg-slate-900 text-white text-xs font-semibold rounded-xl px-3.5 py-3 border border-slate-700 focus:outline-none focus:border-nicaragua-500 transition-colors">
+                                <!-- Populated dynamically with all 17 departments -->
                             </select>
+                        </div>
 
-                            <label class="block text-xs font-semibold uppercase text-slate-400 tracking-wider pt-2">Modo Activo</label>
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
-                                    <span class="flex items-center gap-2"><i class="fa-solid fa-keyboard text-brand-400"></i> Texto a Señas</span>
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                </div>
-                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
-                                    <span class="flex items-center gap-2"><i class="fa-solid fa-video text-accent-400"></i> Reconocimiento de Cámara</span>
-                                    <span class="text-slate-500">Simulado</span>
-                                </div>
+                        <!-- Selector 2: Opción de Sexo/Género del Avatar -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-extrabold uppercase text-slate-400 tracking-wider">
+                                <i class="fa-solid fa-user-gear text-accent-400 mr-1"></i> 2. Sexo/Género del Intérprete:
+                            </label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button type="button" onclick="updateGender('femenino')" id="btn-sex-fem" class="sex-btn px-2 py-2.5 rounded-xl border border-slate-700 text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition-all flex flex-col items-center gap-1">
+                                    <i class="fa-solid fa-person-dress text-rose-400 text-base"></i> Femenino
+                                </button>
+                                <button type="button" onclick="updateGender('masculino')" id="btn-sex-masc" class="sex-btn px-2 py-2.5 rounded-xl border border-slate-700 text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition-all flex flex-col items-center gap-1">
+                                    <i class="fa-solid fa-person text-blue-400 text-base"></i> Masculino
+                                </button>
+                                <button type="button" onclick="updateGender('inclusivo')" id="btn-sex-inc" class="sex-btn px-2 py-2.5 rounded-xl border border-slate-700 text-[11px] font-bold text-slate-300 hover:bg-slate-800 transition-all flex flex-col items-center gap-1">
+                                    <i class="fa-solid fa-child-reaching text-accent-400 text-base"></i> Neutro
+                                </button>
                             </div>
+                        </div>
+
+                        <!-- Active Department Info Card -->
+                        <div id="sim-dept-info-box" class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-1">
+                            <div class="flex items-center justify-between text-nicaragua-400 font-bold">
+                                <span id="info-dept-name"><i class="fa-solid fa-school mr-1"></i> Managua</span>
+                                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-300">MINED Nicaragua</span>
+                            </div>
+                            <p id="info-dept-school" class="text-[11px] text-slate-400">Escuela Melania Morales (Sede Central)</p>
                         </div>
                     </div>
 
-                    <!-- Quick Facts in Simulator -->
-                    <div class="pt-6 border-t border-slate-800/80 mt-6 hidden md:block">
-                        <p class="text-xs text-slate-400 leading-relaxed">
-                            <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> Tip: Puedes enviar expresiones completas o practicar la dactilología letra por letra.
+                    <div class="pt-4 border-t border-slate-800 hidden md:block">
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            <i class="fa-solid fa-circle-info text-amber-400 mr-1"></i> <strong>Nota ISN:</strong> El Idioma de Señas Nicaragüense nació de forma autóctona en los años 80 y es reconocido oficialmente por la Ley 672 de Nicaragua.
                         </p>
                     </div>
                 </div>
 
-                <!-- Right Panel: Chat Thread & Input -->
+                <!-- Right Column: Interactive Chat Stream -->
                 <div class="md:col-span-8 flex flex-col justify-between bg-slate-900">
                     
-                    <!-- Chat Header -->
-                    <div class="p-4 bg-slate-900/90 border-b border-slate-800/80 flex justify-between items-center px-6">
-                        <div class="flex items-center gap-2 text-xs text-slate-400">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                            <span>Signy está listo para ayudarte</span>
+                    <!-- Chat Header Bar -->
+                    <div class="p-4 bg-slate-950/80 border-b border-slate-800 flex justify-between items-center px-6">
+                        <div class="flex items-center gap-2 text-xs text-slate-300">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                            <span>Chatbot Educativo ISN • <strong id="chat-header-dept" class="text-accent-400">Managua</strong></span>
                         </div>
-                        <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1">
-                            <i class="fa-solid fa-trash-can"></i> Limpiar
+                        <button onclick="clearSimChat()" class="text-xs text-slate-400 hover:text-white transition-colors flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-right"></i> Reiniciar Chat
                         </button>
                     </div>
 
-                    <!-- Messages Box -->
-                    <div id="sim-messages" class="p-6 space-y-4 overflow-y-auto max-h-[380px] chat-scroll flex-1">
-                        
-                        <!-- Initial Bot Message -->
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
-                                <i class="fa-solid fa-robot"></i>
-                            </div>
-                            <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm space-y-3 shadow-md">
-                                <p>¡Hola! 👋 Soy <strong>Signy</strong>. Escribe una frase o pulsa un botón rápido para ver la traducción en señas.</p>
-                                
-                                <!-- Card Example -->
-                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700/60 flex items-center gap-3">
-                                    <div class="w-14 h-14 bg-brand-900/60 rounded-lg flex items-center justify-center text-brand-300 text-2xl border border-brand-500/30">
-                                        <i class="fa-solid fa-hand-holding-heart"></i>
-                                    </div>
-                                    <div>
-                                        <span class="text-xs text-brand-400 font-semibold block">Seña Recomendada</span>
-                                        <span class="text-sm font-bold text-white">"Bienvenido / Hola"</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <!-- Messages Container -->
+                    <div id="sim-messages-container" class="p-6 space-y-4 overflow-y-auto max-h-[420px] chat-scroll flex-1">
+                        <!-- Messages dynamically added here -->
                     </div>
 
-                    <!-- Quick Suggestions -->
-                    <div class="px-6 py-2 bg-slate-950/40 border-t border-slate-800/50 flex items-center gap-2 overflow-x-auto text-xs">
-                        <span class="text-slate-500 flex-shrink-0 font-medium">Frases rápidas:</span>
-                        <button onclick="sendQuickMessage('Hola')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">👋 Hola</button>
-                        <button onclick="sendQuickMessage('Gracias')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">🙏 Gracias</button>
-                        <button onclick="sendQuickMessage('Por favor')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">🤝 Por favor</button>
-                        <button onclick="sendQuickMessage('¿Cómo estás?')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap transition-colors">❓ ¿Cómo estás?</button>
+                    <!-- Department Quick Chips -->
+                    <div class="px-6 py-2 bg-slate-950/50 border-t border-slate-800/80 flex items-center gap-2 overflow-x-auto text-xs">
+                        <span class="text-slate-400 flex-shrink-0 font-bold text-[11px]">Preguntas Frecuentes:</span>
+                        <button onclick="sendQuickPrompt('¿Cómo se dice Escuela en ISN?')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap text-xs transition-colors">🏫 Escuela</button>
+                        <button onclick="sendQuickPrompt('¿Cómo se dice Maestro o Profesor?')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap text-xs transition-colors">👨‍🏫 Profesor</button>
+                        <button onclick="sendQuickPrompt('¿Qué escuelas especiales hay en mi departamento?')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap text-xs transition-colors">📍 Centros en mi Depto</button>
+                        <button onclick="sendQuickPrompt('¿Cuál es la historia del ISN en Nicaragua?')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-full border border-slate-700 whitespace-nowrap text-xs transition-colors">🇳🇮 Historia del ISN</button>
                     </div>
 
-                    <!-- Input Box -->
-                    <form id="sim-form" onsubmit="handleChatSubmit(event)" class="p-4 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
-                        <button type="button" onclick="simulateVoiceInput()" title="Usar Micrófono" class="p-3 text-slate-400 hover:text-brand-400 bg-slate-900 hover:bg-slate-800 rounded-xl transition-colors">
-                            <i class="fa-solid fa-microphone"></i>
-                        </button>
-                        <input id="sim-input" type="text" placeholder="Escribe un mensaje para traducir..." class="flex-1 bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-brand-500 transition-colors">
-                        <button type="submit" class="px-5 py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-semibold transition-colors flex items-center gap-2 shadow-lg shadow-brand-600/30">
+                    <!-- Input Form -->
+                    <form id="sim-chat-form" onsubmit="handleChatSubmit(event)" class="p-4 bg-slate-950 border-t border-slate-800 flex items-center gap-2">
+                        <input id="sim-chat-input" type="text" placeholder="Escribe una seña escolar, palabra o pregunta sobre tu departamento..." class="flex-1 bg-slate-900 border border-slate-800 text-white placeholder-slate-500 text-xs sm:text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-nicaragua-500 transition-colors">
+                        <button type="submit" class="px-5 py-3 bg-gradient-to-r from-nicaragua-600 to-accent-500 hover:from-nicaragua-700 hover:to-accent-600 text-white rounded-xl font-bold transition-all flex items-center gap-2 text-xs sm:text-sm shadow-md">
                             <span>Enviar</span>
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
                     </form>
 
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="caracteristicas" class="py-20 bg-slate-50">
+    <!-- DEPARTMENTS EXPLORER SECTION -->
+    <section id="departamentos" class="py-20 bg-slate-100/70 border-y border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-xs font-bold text-accent-600 tracking-wider uppercase bg-accent-50 px-3 py-1 rounded-full border border-accent-200">Tecnología Inclusiva</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Características Principales</h2>
-                <p class="text-slate-600 mt-3 text-lg">Nuestra plataforma integra las herramientas más avanzadas de Visión por Computadora y Procesamiento de Lenguaje Natural.</p>
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-xs font-black text-nicaragua-700 tracking-wider uppercase bg-nicaragua-100 px-3.5 py-1.5 rounded-full border border-nicaragua-200">
+                    <i class="fa-solid fa-map-marked-alt mr-1"></i> Cobertura Nacional
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Inclusión Escolar en los 17 Departamentos y Regiones Autónomas</h2>
+                <p class="text-slate-600 mt-3 text-base sm:text-lg">
+                    Haz clic en cualquier departamento de Nicaragua para cargar sus centros de educación especial y adaptar el chatbot.
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                
-                <!-- Feature 1 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center text-2xl mb-6">
-                        <i class="fa-solid fa-language"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Traducción Bidireccional</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Convierte texto y notas de voz directamente a animaciones claras en lengua de señas, y viceversa, instantáneamente.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-2xl bg-accent-100 text-accent-600 flex items-center justify-center text-2xl mb-6">
-                        <i class="fa-solid fa-camera-rotate"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Detección por Cámara</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        La IA analiza los movimientos de tus manos, postura y gestos faciales a través de la webcam con alta precisión.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl mb-6">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Aprendizaje Gamificado</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Lecciones cortas diarias, cuestionarios interactivos y feedback corregido por la IA para mejorar tu fluidez.
-                    </p>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 hover:shadow-xl hover:border-brand-300 transition-all transform hover:-translate-y-1">
-                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl mb-6">
-                        <i class="fa-solid fa-earth-americas"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Multi-Dialecto</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Soporte especializado para LSE (España), LSM (México), ASL (Estados Unidos), LSA (Argentina) y más regiones.
-                    </p>
-                </div>
-
+            <!-- Grid of 17 Nicaragua Departments -->
+            <div id="dept-cards-grid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Dynamically generated via Javascript -->
             </div>
         </div>
     </section>
 
-    <section id="impacto" class="py-20 bg-gradient-to-r from-brand-900 via-slate-900 to-brand-950 text-white relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- ISN HISTORICAL CULTURAL SECTION -->
+    <section id="historia" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-12 items-center">
                 
                 <div class="lg:col-span-6 space-y-6">
-                    <span class="text-xs font-bold text-accent-400 tracking-wider uppercase bg-accent-500/10 px-3 py-1 rounded-full border border-accent-500/20">Impacto Social</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
-                        Construyendo un mundo sin barreras de comunicación
+                    <span class="text-xs font-extrabold text-accent-600 tracking-wider uppercase bg-accent-50 px-3.5 py-1.5 rounded-full border border-accent-200">
+                        <i class="fa-solid fa-landmark mr-1"></i> Orgullo Lingüístico Nicaragüense
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+                        La Increíble Historia del Idioma de Señas Nicaragüense (ISN)
                     </h2>
-                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
-                        Más de 70 millones de personas sorda en todo el mundo utilizan la lengua de señas como su primer idioma. Signy conecta a la comunidad sorda con oyentes en colegios, empresas y entornos de salud.
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        El <strong>ISN</strong> es mundialmente reconocido por lingüistas como un hito histórico: es una de las pocas lenguas de señas nacidas de forma completamente natural a finales de los años 70 y principios de los 80, cuando niños y jóvenes sordos se reunieron en los centros educativos de Managua.
                     </p>
-                    <div class="pt-4">
-                        <a href="#precios" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-500 hover:bg-accent-600 text-white font-bold transition-all shadow-lg shadow-accent-500/30">
-                            Únete a la Inclusión <i class="fa-solid fa-arrow-right text-xs"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Stats Grid -->
-                <div class="lg:col-span-6 grid grid-cols-2 gap-6">
-                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
-                        <div class="text-4xl sm:text-5xl font-black text-accent-400 mb-2">+50K</div>
-                        <div class="text-slate-300 font-medium text-sm">Usuarios Activos</div>
-                    </div>
-
-                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
-                        <div class="text-4xl sm:text-5xl font-black text-brand-400 mb-2">98.4%</div>
-                        <div class="text-slate-300 font-medium text-sm">Precisión de Reconocimiento</div>
-                    </div>
-
-                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
-                        <div class="text-4xl sm:text-5xl font-black text-indigo-400 mb-2">12+</div>
-                        <div class="text-slate-300 font-medium text-sm">Dialectos Soportados</div>
-                    </div>
-
-                    <div class="bg-white/5 backdrop-blur-lg p-6 rounded-3xl border border-white/10 text-center">
-                        <div class="text-4xl sm:text-5xl font-black text-rose-400 mb-2">1M+</div>
-                        <div class="text-slate-300 font-medium text-sm">Traducciones Realizadas</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="testimonios" class="py-20 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-xs font-bold text-brand-600 tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Testimonios</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Lo que dice nuestra comunidad</h2>
-                <p class="text-slate-600 mt-3 text-lg">Estudiantes, educadores y miembros de la comunidad sorda comparten su experiencia con Signy.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex text-amber-400 space-x-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    <div class="space-y-3 pt-2">
+                        <div class="flex items-start gap-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+                            <div class="w-9 h-9 rounded-xl bg-nicaragua-100 text-nicaragua-700 flex items-center justify-center font-bold flex-shrink-0">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Ley N° 672 de Nicaragua</h4>
+                                <p class="text-xs text-slate-600">Reconoce oficialmente el ISN como lengua nacional de las personas sordas e impulsa su uso en las escuelas del país.</p>
+                            </div>
                         </div>
-                        <p class="text-slate-700 text-sm leading-relaxed italic">
-                            "Como profesora, Signy me ha permitido comunicarme con fluidez con mis estudiantes sordos en el aula. El reconocedor de cámara es impresionante."
-                        </p>
-                    </div>
-                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" alt="Lucía M." class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">Lucía Méndez</h4>
-                            <p class="text-xs text-slate-500">Docente de Educación Inclusiva</p>
+
+                        <div class="flex items-start gap-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+                            <div class="w-9 h-9 rounded-xl bg-accent-100 text-accent-700 flex items-center justify-center font-bold flex-shrink-0">
+                                <i class="fa-solid fa-book-open-reader"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Diccionario Oficial ISN</h4>
+                                <p class="text-xs text-slate-600">Integrado en la base de conocimiento de nuestro chatbot para asegurar fidelidad con las señas locales.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex text-amber-400 space-x-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                <!-- Graphic Showcase -->
+                <div class="lg:col-span-6 bg-gradient-to-br from-nicaragua-900 to-slate-900 text-white rounded-3xl p-8 shadow-2xl relative overflow-hidden border border-nicaragua-800">
+                    <div class="relative z-10 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-accent-400 uppercase tracking-widest">Hitos del ISN</span>
+                            <i class="fa-solid fa-award text-2xl text-sun-400"></i>
                         </div>
-                        <p class="text-slate-700 text-sm leading-relaxed italic">
-                            "Por fin existe una herramienta que realmente entiende la estructura gramatical de la LSE y no solo traduce palabra por palabra."
-                        </p>
-                    </div>
-                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" alt="Carlos R." class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">Carlos Ruiz</h4>
-                            <p class="text-xs text-slate-500">Activista Comunidad Sorda</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonial 3 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <div class="flex text-amber-400 space-x-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="text-slate-700 text-sm leading-relaxed italic">
-                            "Empecé desde cero para poder hablar con mi sobrina. Las lecciones del bot y los ejercicios prácticos hacen que aprender sea súper ameno."
-                        </p>
-                    </div>
-                    <div class="flex items-center space-x-3 mt-6 pt-6 border-t border-slate-100">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150" alt="Elena P." class="w-12 h-12 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">Elena Pardo</h4>
-                            <p class="text-xs text-slate-500">Estudiante de LSM</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="precios" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <span class="text-xs font-bold text-accent-600 tracking-wider uppercase bg-accent-50 px-3 py-1 rounded-full border border-accent-200">Planes Accesibles</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Empieza Gratis Hoy Mismo</h2>
-                <p class="text-slate-600 mt-3 text-lg">Elige el plan que mejor se adapte a tus necesidades de aprendizaje o comunicación.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 max-w-4xl mx-auto gap-8 items-stretch">
-                
-                <!-- Free Plan -->
-                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 flex flex-col justify-between">
-                    <div>
-                        <h3 class="text-2xl font-bold text-slate-900">Básico Gratuito</h3>
-                        <p class="text-slate-500 text-sm mt-1">Ideal para principiantes y consultas rápidas.</p>
+                        <h3 class="text-2xl font-black">Impacto en las Aulas Nicaragüenses</h3>
                         
-                        <div class="my-6">
-                            <span class="text-4xl font-black text-slate-900">$0</span>
-                            <span class="text-slate-500 font-medium"> / para siempre</span>
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+                                <strong class="text-sun-400 block text-sm mb-1">Años 1980 - Nacimiento</strong>
+                                Estudiantes sordos crean espontáneamente su propio sistema de señas en el Centro de Educación Especial en Managua.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+                                <strong class="text-accent-400 block text-sm mb-1">Asociación ANSNIC</strong>
+                                Formación de la Asociación Nacional de Sordos de Nicaragua para la preservación lingüística.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10">
+                                <strong class="text-nicaragua-300 block text-sm mb-1">IA e Inclusión Digital</strong>
+                                Integración del chatbot ISN en escuelas primarias y secundarias de Nicaragua.
+                            </div>
                         </div>
-
-                        <ul class="space-y-4 text-sm text-slate-700">
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-emerald-500"></i>
-                                <span>Traducción texto a señas (Hasta 30/día)</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-emerald-500"></i>
-                                <span>Acceso a diccionario básico (LSE y LSM)</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-emerald-500"></i>
-                                <span>Simulador interactivo del Chatbot</span>
-                            </li>
-                            <li class="flex items-center gap-3 text-slate-400">
-                                <i class="fa-solid fa-xmark"></i>
-                                <span>Reconocimiento por webcam en tiempo real</span>
-                            </li>
-                        </ul>
                     </div>
-
-                    <button onclick="openChatModal()" class="mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 transition-colors text-center">
-                        Comenzar Gratis
-                    </button>
-                </div>
-
-                <!-- Pro Plan -->
-                <div class="bg-gradient-to-b from-brand-900 to-slate-900 text-white p-8 rounded-3xl border border-brand-700 flex flex-col justify-between relative shadow-2xl">
-                    <div class="absolute -top-3.5 right-8 bg-gradient-to-r from-accent-500 to-emerald-400 text-slate-950 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
-                        Más Popular
-                    </div>
-
-                    <div>
-                        <h3 class="text-2xl font-bold">Pro Inclusivo</h3>
-                        <p class="text-brand-200 text-sm mt-1">Para aprendizaje intensivo y profesionales.</p>
-                        
-                        <div class="my-6">
-                            <span class="text-4xl font-black">$9.99</span>
-                            <span class="text-slate-300 font-medium"> / mes</span>
-                        </div>
-
-                        <ul class="space-y-4 text-sm text-slate-200">
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-accent-400"></i>
-                                <span>Traducción ilimitada Texto, Voz y Señas</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-accent-400"></i>
-                                <span>Reconocimiento por Webcam 3D e IA</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-accent-400"></i>
-                                <span>Todos los dialectos (LSE, LSM, ASL, LSA)</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-check text-accent-400"></i>
-                                <span>Corrección de postura y feedback en directo</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <button onclick="alert('¡Gracias por tu interés en Signy Pro! Próximamente habilitaremos la pasarela de pago.')" class="mt-8 w-full py-3.5 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-brand-600 to-accent-500 hover:from-brand-500 hover:to-accent-400 transition-all shadow-lg shadow-brand-500/30 text-center">
-                        Probar 7 Días Gratis
-                    </button>
                 </div>
 
             </div>
         </div>
     </section>
 
+    <!-- SCHOOLS BY DEPARTMENT DIRECTORY -->
+    <section id="escuelas" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-black text-nicaragua-700 tracking-wider uppercase bg-nicaragua-100 px-3.5 py-1.5 rounded-full border border-nicaragua-200">
+                    <i class="fa-solid fa-school-flag mr-1"></i> Directorio Escolar
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3">Centros de Educación Especial en Nicaragua</h2>
+                <p class="text-slate-600 mt-2 text-sm sm:text-base">
+                    Mostrando escuelas de educación especial e inclusivas de: <strong id="directory-dept-title" class="text-nicaragua-600">Managua</strong>
+                </p>
+            </div>
+
+            <!-- Dynamic Schools Showcase Box -->
+            <div id="schools-display-container" class="grid md:grid-cols-3 gap-6">
+                <!-- Javascript will inject schools based on selected department -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
                 
-                <!-- Col 1 -->
                 <div class="space-y-4">
                     <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                        <div class="w-9 h-9 rounded-xl bg-nicaragua-600 flex items-center justify-center text-white">
                             <i class="fa-solid fa-hands-asl-interpreting"></i>
                         </div>
-                        <span class="text-xl font-bold text-white tracking-tight">Signy</span>
+                        <span class="text-xl font-bold text-white">ISN Nicaragua</span>
                     </div>
                     <p class="text-xs text-slate-400 leading-relaxed">
-                        Impulsando la accesibilidad universal mediante Inteligencia Artificial y Lengua de Señas.
+                        Plataforma educativa para la difusión del Idioma de Señas Nicaragüense y la inclusión escolar por departamentos.
                     </p>
                 </div>
 
-                <!-- Col 2 -->
                 <div>
-                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Navegación</h4>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Secciones</h4>
                     <ul class="space-y-2 text-xs">
                         <li><a href="#inicio" class="hover:text-white transition-colors">Inicio</a></li>
-                        <li><a href="#caracteristicas" class="hover:text-white transition-colors">Funcionalidades</a></li>
-                        <li><a href="#simulador" class="hover:text-white transition-colors">Demo Interactiva</a></li>
-                        <li><a href="#precios" class="hover:text-white transition-colors">Planes de Acceso</a></li>
+                        <li><a href="#simulador" class="hover:text-white transition-colors">Chatbot ISN</a></li>
+                        <li><a href="#departamentos" class="hover:text-white transition-colors">Departamentos de Nicaragua</a></li>
+                        <li><a href="#escuelas" class="hover:text-white transition-colors">Centros Especiales</a></li>
                     </ul>
                 </div>
 
-                <!-- Col 3 -->
                 <div>
-                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Recursos</h4>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Leyes y Marcos</h4>
                     <ul class="space-y-2 text-xs">
-                        <li><a href="#" class="hover:text-white transition-colors">Diccionario LSE</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Guía de Accesibilidad</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Documentación de API</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Blog sobre Inclusión</a></li>
+                        <li><span class="text-slate-300">Ley N° 672 (Lengua de Señas NI)</span></li>
+                        <li><span class="text-slate-300">MINED Nicaragua Educación Especial</span></li>
+                        <li><span class="text-slate-300">ANSNIC Asociación de Sordos</span></li>
                     </ul>
                 </div>
 
-                <!-- Col 4 -->
                 <div>
-                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider mb-4">Comunidad</h4>
-                    <div class="flex space-x-4 text-lg">
-                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-discord"></i></a>
-                        <a href="#" class="hover:text-brand-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-4">Accesibilidad adaptada según pautas WCAG 2.1 AA.</p>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Cobertura</h4>
+                    <p class="text-xs text-slate-400">
+                        Servicio adaptado para los 15 Departamentos y 2 Regiones Autónomas (RACCN y RACCS) de Nicaragua.
+                    </p>
                 </div>
 
             </div>
 
-            <div class="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
-                <p>&copy; 2026 Signy AI. Todos los derechos reservados.</p>
-                <div class="flex space-x-6 mt-4 sm:mt-0">
-                    <a href="#" class="hover:text-slate-400">Privacidad</a>
-                    <a href="#" class="hover:text-slate-400">Términos</a>
-                    <a href="#" class="hover:text-slate-400">Accesibilidad</a>
-                </div>
+            <div class="border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 ISN Nicaragua Educativo. Todos los derechos reservados.</p>
+                <p class="mt-2 sm:mt-0">Enfocado en la Inclusión Escolar Nicaragüense 🇳🇮</p>
             </div>
         </div>
     </footer>
 
-    <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="toggleFloatingChat()" class="relative group bg-gradient-to-r from-brand-600 to-accent-500 text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-transform flex items-center justify-center focus:outline-none">
-            <i class="fa-solid fa-comments text-2xl"></i>
-            <span class="absolute -top-1 -right-1 flex h-3 w-3">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-accent-500"></span>
-            </span>
-        </button>
-    </div>
-
-    <div id="floating-chat-modal" class="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 hidden flex-col overflow-hidden transition-all">
-        <!-- Header -->
-        <div class="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white text-xs">
-                    <i class="fa-solid fa-hands-asl-interpreting"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-white text-sm">Signy Widget</h4>
-                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Asistente Activo
-                    </span>
-                </div>
-            </div>
-            <button onclick="toggleFloatingChat()" class="text-slate-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-
-        <!-- Chat Area -->
-        <div id="widget-messages" class="p-4 h-72 overflow-y-auto chat-scroll space-y-3 text-xs bg-slate-900">
-            <div class="bg-slate-800 text-slate-200 p-3 rounded-xl max-w-[85%]">
-                ¡Hola! 👋 ¿En qué expresión de Lengua de Señas deseas practicar hoy?
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <form onsubmit="handleWidgetSubmit(event)" class="p-3 bg-slate-950 border-t border-slate-800 flex gap-2">
-            <input id="widget-input" type="text" placeholder="Escribe algo..." class="flex-1 bg-slate-900 border border-slate-800 text-white text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-brand-500">
-            <button type="submit" class="bg-brand-600 text-white px-3 py-2 rounded-lg text-xs font-semibold hover:bg-brand-500">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
-        </form>
-    </div>
-
+    <!-- JAVASCRIPT ENGINE -->
     <script>
-        // Simulated dictionary responses for signs
-        const signDictionary = {
-            'hola': {
-                title: 'Hola',
-                icon: 'fa-hand-wave',
-                description: 'Lleva la mano dominante hacia la sien y desplázala ligeramente hacia afuera extendiendo los dedos.'
+        // 1. DATA OF ALL 17 DEPARTMENTS / REGIONS OF NICARAGUA
+        const nicaraguaData = {
+            "Managua": {
+                name: "Managua",
+                cabecera: "Managua (Capital)",
+                escuelas: [
+                    { name: "Escuela de Educación Especial Melania Morales", location: "Distrito III, Managua", desc: "Centro insigne nacional en educación primaria e inicial para estudiantes con discapacidad auditiva." },
+                    { name: "Centro Escolar Inclusivo San Martín", location: "Distrito II, Managua", desc: "Programa de aulas integradas con intérpretes de ISN." },
+                    { name: "Instituto Nacional Maestro Gabriel", location: "Bello Horizonte, Managua", desc: "Secundaria inclusiva con apoyo de intérpretes ISN." }
+                ],
+                isnFact: "Managua fue el cuna donde nació el ISN en los años 80 al reunirse jóvenes de todo el país."
             },
-            'gracias': {
-                title: 'Gracias',
-                icon: 'fa-hands-clapping',
-                description: 'Toca suavemente la barbilla con las yemas de los dedos y extiende la mano hacia la otra persona.'
+            "León": {
+                name: "León",
+                cabecera: "León",
+                escuelas: [
+                    { name: "Escuela Especial Angela Morales Avilés", location: "Sutiava, León", desc: "Atención especializada a la niñez sorda en el occidente nicaragüense." },
+                    { name: "Colegio Inclusivo Modesto Armijo", location: "León Centro", desc: "Aulas integradas con tutores en lengua de señas." }
+                ],
+                isnFact: "León cuenta con activos clubes de práctica de ISN universitarios en la UNAN-León."
             },
-            'por favor': {
-                title: 'Por favor',
-                icon: 'fa-hands-holding-circle',
-                description: 'Junta las palmas de las manos a la altura del pecho en gesto de amabilidad.'
+            "Granada": {
+                name: "Granada",
+                cabecera: "Granada",
+                escuelas: [
+                    { name: "Escuela Especial Lorenzo Guerrero", location: "Granada Centro", desc: "Educación inicial y primaria con docentes capacitados en ISN." }
+                ],
+                isnFact: "Granada promueve talleres de ISN orientados al turismo e inclusión escolar."
             },
-            '¿cómo estás?': {
-                title: '¿Cómo estás?',
-                icon: 'fa-circle-question',
-                description: 'Realiza la seña de "¿Cómo?" seguido del gesto de actitud o bienestar con ambos pulgares arriba.'
+            "Matagalpa": {
+                name: "Matagalpa",
+                cabecera: "Matagalpa",
+                escuelas: [
+                    { name: "Escuela Especial La Amistad", location: "Matagalpa", desc: "Atiende a la niñez sorda de la zona norte y comunidades cafetaleras." }
+                ],
+                isnFact: "En Matagalpa se incorporan señas locales de contexto agrícola en los talleres comunitarios."
+            },
+            "Estelí": {
+                name: "Estelí",
+                cabecera: "Estelí",
+                escuelas: [
+                    { name: "Escuela Especial Pedro Cruz", location: "Estelí Centro", desc: "Referente en inclusión escolar e interpretación para el septentrión." }
+                ],
+                isnFact: "Estelí cuenta con programas de muralismo que incluyen el alfabeto en dactilología ISN."
+            },
+            "Masaya": {
+                name: "Masaya",
+                cabecera: "Masaya",
+                escuelas: [
+                    { name: "Escuela Especial San Vicente de Paúl", location: "Masaya", desc: "Formación en valores e ISN para niños y niñas con discapacidad auditiva." }
+                ],
+                isnFact: "En Masaya se han traducido cantos tradicionales y folclóricos al ISN."
+            },
+            "Chinandega": {
+                name: "Chinandega",
+                cabecera: "Chinandega",
+                escuelas: [
+                    { name: "Escuela Especial Humberto Cabezas", location: "Chinandega", desc: "Atención integral en educación primaria inclusiva." }
+                ],
+                isnFact: "Chinandega mantiene talleres de ISN para familias en zonas rurales del departamento."
+            },
+            "Carazo": {
+                name: "Carazo",
+                cabecera: "Jinotepe",
+                escuelas: [
+                    { name: "Escuela Especial San José", location: "Jinotepe, Carazo", desc: "Aulas de apoyo psicopedagógico y comunicación en ISN." }
+                ],
+                isnFact: "En Carazo, docentes de Jinotepe y Diriamba promueven el ISN en la educación secundaria."
+            },
+            "Rivas": {
+                name: "Rivas",
+                cabecera: "Rivas",
+                escuelas: [
+                    { name: "Escuela Especial Nicarao", location: "Rivas", desc: "Promueve la integración de niños sordos de Rivas e Isla de Ometepe." }
+                ],
+                isnFact: "Programas de integración educativa coordinados con MINED Rivas."
+            },
+            "Chontales": {
+                name: "Chontales",
+                cabecera: "Juigalpa",
+                escuelas: [
+                    { name: "Escuela Especial Padre Guillermo de la Cruz", location: "Juigalpa, Chontales", desc: "Atención a la niñez sorda del sector ganadero de Chontales." }
+                ],
+                isnFact: "Juigalpa impulsa ferias de inclusión educativa en ISN."
+            },
+            "Boaco": {
+                name: "Boaco",
+                cabecera: "Boaco",
+                escuelas: [
+                    { name: "Escuela Especial Julia García", location: "Boaco", desc: "Centro de referencia departamental para la inclusión escolar." }
+                ],
+                isnFact: "Docentes de Boaco participan en capacitaciones continuas del MINED en ISN."
+            },
+            "Jinotega": {
+                name: "Jinotega",
+                cabecera: "Jinotega",
+                escuelas: [
+                    { name: "Escuela Especial de Jinotega", location: "Jinotega", desc: "Atención en lengua de señas a niños de zonas montañosas y cafetaleras." }
+                ],
+                isnFact: "Atención especializada para familias rurales con niños sordos."
+            },
+            "Madriz": {
+                name: "Madriz",
+                cabecera: "Somoto",
+                escuelas: [
+                    { name: "Escuela Especial de Somoto", location: "Somoto, Madriz", desc: "Aulas inclusivas en el sector norte frontera con Honduras." }
+                ],
+                isnFact: "Somoto realiza talleres de sensibilización escolar en ISN."
+            },
+            "Nueva Segovia": {
+                name: "Nueva Segovia",
+                cabecera: "Ocotal",
+                escuelas: [
+                    { name: "Escuela Especial de Ocotal", location: "Ocotal, Nueva Segovia", desc: "Atención en educación inicial y primaria inclusiva." }
+                ],
+                isnFact: "Ocotal fomenta la enseñanza del ISN a padres y madres de familia."
+            },
+            "Río San Juan": {
+                name: "Río San Juan",
+                cabecera: "San Carlos",
+                escuelas: [
+                    { name: "Centro Inclusivo San Carlos", location: "San Carlos, Río San Juan", desc: "Atención y tutorías itinerantes en ISN para la zona del río." }
+                ],
+                isnFact: "Implementación de material digital interactivo en ISN para zonas de difícil acceso."
+            },
+            "RACCN": {
+                name: "RACCN (Caribe Norte)",
+                cabecera: "Puerto Cabezas / Bilwi",
+                escuelas: [
+                    { name: "Escuela Inclusiva Intercultural Bilwi", location: "Puerto Cabezas, RACCN", desc: "Atención bilingüe intercultural (Miskito/Español e ISN)." }
+                ],
+                isnFact: "En la RACCN se promueve el ISN respetando la diversidad lingüística de los pueblos originarios."
+            },
+            "RACCS": {
+                name: "RACCS (Caribe Sur)",
+                cabecera: "Bluefields",
+                escuelas: [
+                    { name: "Escuela Especial de Bluefields", location: "Bluefields, RACCS", desc: "Atención a la niñez sorda en entornos multilingües del Caribe Sur." }
+                ],
+                isnFact: "Bluefields articula el ISN con intérpretes locales comunitarios."
             }
         };
 
-        // Scroll smooth helper
-        function scrollToSimulator() {
-            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Toggle mobile navbar
-        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Floating Chat Widget Toggle
-        function toggleFloatingChat() {
-            const widget = document.getElementById('floating-chat-modal');
-            widget.classList.toggle('hidden');
-            widget.classList.toggle('flex');
-        }
-
-        function openChatModal() {
-            const widget = document.getElementById('floating-chat-modal');
-            if (widget.classList.contains('hidden')) {
-                widget.classList.remove('hidden');
-                widget.classList.add('flex');
+        // 2. AVATAR CONFIGURATIONS ACCORDING TO SEX/GENDER SELECTION
+        const genderAvatars = {
+            femenino: {
+                title: "Docente ISN (Femenino)",
+                shortName: "Profa. Elena (ISN)",
+                icon: "fa-user-nurse",
+                bgColor: "from-rose-600 to-nicaragua-600",
+                badge: "Intérprete Femenina",
+                greeting: "¡Hola! Soy la Profesora Elena 👩. Te enseñaré señas del ISN para el aula de clases en"
+            },
+            masculino: {
+                title: "Docente ISN (Masculino)",
+                shortName: "Prof. Carlos (ISN)",
+                icon: "fa-user-tie",
+                bgColor: "from-blue-600 to-nicaragua-600",
+                badge: "Intérprete Masculino",
+                greeting: "¡Hola! Soy el Profesor Carlos 👨. Te guiaré con el vocabulario escolar en ISN para"
+            },
+            inclusivo: {
+                title: "Avatar Neutro Inclusivo",
+                shortName: "Bot ISN Inclusivo",
+                icon: "fa-child-reaching",
+                bgColor: "from-accent-600 to-nicaragua-600",
+                badge: "Avatar Inclusivo",
+                greeting: "¡Hola! Soy tu asistente de Lengua de Señas Inclusivo 🧑. Estoy aquí para enseñarte señas en"
             }
+        };
+
+        // STATE APP VARIABLES
+        let currentDepartment = "Managua";
+        let currentGender = "femenino";
+
+        // INITIALIZATION ON PAGE LOAD
+        document.onload = initApp();
+
+        function initApp() {
+            populateDepartmentSelects();
+            renderDepartmentGrid();
+            updateDepartment("Managua");
+            updateGender("femenino");
+            resetChatMessages();
         }
 
-        // Chat Simulator Logic
+        // POPULATE ALL SELECT DROPDOWNS
+        function populateDepartmentSelects() {
+            const heroSelect = document.getElementById('hero-dept-select');
+            const simSelect = document.getElementById('sim-dept-select');
+            
+            heroSelect.innerHTML = '';
+            simSelect.innerHTML = '';
+
+            Object.keys(nicaraguaData).forEach(deptKey => {
+                const opt1 = document.createElement('option');
+                opt1.value = deptKey;
+                opt1.textContent = nicaraguaData[deptKey].name;
+
+                const opt2 = document.createElement('option');
+                opt2.value = deptKey;
+                opt2.textContent = nicaraguaData[deptKey].name;
+
+                heroSelect.appendChild(opt1);
+                simSelect.appendChild(opt2);
+            });
+        }
+
+        // RENDER DEPARTMENTS GRID
+        function renderDepartmentGrid() {
+            const grid = document.getElementById('dept-cards-grid');
+            grid.innerHTML = '';
+
+            Object.keys(nicaraguaData).forEach(key => {
+                const item = nicaraguaData[key];
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-nicaragua-400 transition-all cursor-pointer flex flex-col justify-between";
+                card.onclick = () => {
+                    syncDepartment(key);
+                    scrollToSimulator();
+                };
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-nicaragua-600 bg-nicaragua-50 px-2.5 py-0.5 rounded-full border border-nicaragua-100">
+                                🇳🇮 Depto
+                            </span>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-sm">${item.name}</h4>
+                        <p class="text-[11px] text-slate-500 mt-1">Cabecera: ${item.cabecera}</p>
+                        <p class="text-[11px] text-nicaragua-700 font-semibold mt-2">${item.escuelas.length} Centro(s) de Educación Especial</p>
+                    </div>
+                    <button class="mt-3 w-full py-1.5 text-[11px] font-bold text-slate-700 bg-slate-100 hover:bg-nicaragua-600 hover:text-white rounded-xl transition-colors text-center">
+                        Seleccionar
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // SYNC DEPARTMENT ACROSS ALL COMPONENTS
+        function syncDepartment(deptKey) {
+            currentDepartment = deptKey;
+            document.getElementById('hero-dept-select').value = deptKey;
+            document.getElementById('sim-dept-select').value = deptKey;
+            updateDepartment(deptKey);
+        }
+
+        function updateDepartment(deptKey) {
+            currentDepartment = deptKey;
+            const deptObj = nicaraguaData[deptKey] || nicaraguaData["Managua"];
+
+            // Update Labels
+            document.getElementById('header-dept-label').textContent = deptObj.name;
+            document.getElementById('hero-avatar-dept').textContent = `${deptObj.name} • Escuela Inclusiva`;
+            document.getElementById('sim-avatar-dept-badge').textContent = `${deptObj.name}, Nicaragua`;
+            document.getElementById('chat-header-dept').textContent = deptObj.name;
+            document.getElementById('directory-dept-title').textContent = deptObj.name;
+            document.getElementById('info-dept-name').innerHTML = `<i class="fa-solid fa-school mr-1"></i> ${deptObj.name}`;
+            
+            if (deptObj.escuelas.length > 0) {
+                document.getElementById('info-dept-school').textContent = deptObj.escuelas[0].name;
+            }
+
+            // Render Schools in directory section
+            renderSchoolsDirectory(deptObj);
+        }
+
+        // SYNC GENDER/SEX OF AVATAR
+        function syncGender(genderKey) {
+            currentGender = genderKey;
+            document.getElementById('hero-gender-select').value = genderKey;
+            updateGender(genderKey);
+        }
+
+        function updateGender(genderKey) {
+            currentGender = genderKey;
+            const avatar = genderAvatars[genderKey] || genderAvatars['femenino'];
+
+            // Update Hero Visuals
+            document.getElementById('hero-avatar-title').textContent = avatar.title;
+            document.getElementById('hero-avatar-gender-text').textContent = avatar.badge;
+            document.getElementById('hero-avatar-icon').className = `fa-solid ${avatar.icon} text-4xl text-accent-400`;
+
+            // Update Simulator Avatar Visuals
+            document.getElementById('sim-avatar-name').textContent = avatar.shortName;
+            document.getElementById('sim-avatar-header-icon').className = `fa-solid ${avatar.icon}`;
+
+            // Update Button States
+            document.querySelectorAll('.sex-btn').forEach(btn => {
+                btn.classList.remove('bg-nicaragua-600', 'text-white', 'border-nicaragua-500');
+            });
+
+            if (genderKey === 'femenino') {
+                document.getElementById('btn-sex-fem').classList.add('bg-nicaragua-600', 'text-white', 'border-nicaragua-500');
+            } else if (genderKey === 'masculino') {
+                document.getElementById('btn-sex-masc').classList.add('bg-nicaragua-600', 'text-white', 'border-nicaragua-500');
+            } else {
+                document.getElementById('btn-sex-inc').classList.add('bg-nicaragua-600', 'text-white', 'border-nicaragua-500');
+            }
+
+            resetChatMessages();
+        }
+
+        // RENDER SCHOOLS DIRECTORY
+        function renderSchoolsDirectory(deptObj) {
+            const container = document.getElementById('schools-display-container');
+            container.innerHTML = '';
+
+            if (!deptObj.escuelas || deptObj.escuelas.length === 0) {
+                container.innerHTML = `<p class="text-slate-500 text-sm">No hay registros específicos cargados para este departamento.</p>`;
+                return;
+            }
+
+            deptObj.escuelas.forEach(esc => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between";
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-2xl bg-nicaragua-100 text-nicaragua-700 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-school"></i>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base">${esc.name}</h4>
+                        <p class="text-xs text-nicaragua-600 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-location-dot"></i> ${esc.location}
+                        </p>
+                        <p class="text-xs text-slate-600 leading-relaxed">${esc.desc}</p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 mt-4 flex justify-between items-center text-xs">
+                        <span class="text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                            MINED Nicaragua
+                        </span>
+                        <button onclick="scrollToSimulator(); askAboutSchool('${esc.name}')" class="text-nicaragua-600 font-bold hover:underline">
+                            Consultar al Chatbot &rarr;
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // RESET CHAT MESSAGES WITH WELCOME
+        function resetChatMessages() {
+            const container = document.getElementById('sim-messages-container');
+            const avatar = genderAvatars[currentGender];
+            const deptObj = nicaraguaData[currentDepartment];
+
+            container.innerHTML = `
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-nicaragua-600 to-accent-500 flex-shrink-0 flex items-center justify-center text-white text-sm font-bold shadow-md">
+                        <i class="fa-solid ${avatar.icon}"></i>
+                    </div>
+                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[88%] text-xs sm:text-sm space-y-3 shadow-md">
+                        <p>${avatar.greeting} <strong>${deptObj.name}</strong> 🇳🇮.</p>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-700/70 space-y-1">
+                            <span class="text-[10px] text-accent-400 font-bold uppercase tracking-wider block">Dato del departamento (${deptObj.name}):</span>
+                            <p class="text-xs text-slate-300">${deptObj.isnFact}</p>
+                        </div>
+                        <p class="text-xs text-slate-400">Puedes preguntarme señas como: <em>"Escuela", "Maestro", "Estudiar", "Gracias"</em> o sobre las escuelas especiales de tu zona.</p>
+                    </div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // CHAT SUBMIT HANDLER
         function handleChatSubmit(e) {
             e.preventDefault();
-            const input = document.getElementById('sim-input');
-            const text = input.value.trim();
-            if (!text) return;
+            const input = document.getElementById('sim-chat-input');
+            const query = input.value.trim();
+            if (!query) return;
 
-            addMessageToSim('user', text);
+            addMessageToChat('user', query);
             input.value = '';
 
-            // Simulate Bot thinking and responding
             setTimeout(() => {
-                respondToText(text.toLowerCase());
+                generateBotResponse(query.toLowerCase());
             }, 600);
         }
 
-        function sendQuickMessage(text) {
-            addMessageToSim('user', text);
+        function sendQuickPrompt(promptText) {
+            addMessageToChat('user', promptText);
             setTimeout(() => {
-                respondToText(text.toLowerCase());
+                generateBotResponse(promptText.toLowerCase());
             }, 500);
         }
 
-        function addMessageToSim(sender, text, cardData = null) {
-            const container = document.getElementById('sim-messages');
+        function askAboutSchool(schoolName) {
+            const query = `¿Qué información tienes sobre la ${schoolName}?`;
+            addMessageToChat('user', query);
+            setTimeout(() => {
+                generateBotResponse(query.toLowerCase());
+            }, 500);
+        }
+
+        function addMessageToChat(sender, text, cardData = null) {
+            const container = document.getElementById('sim-messages-container');
+            const avatar = genderAvatars[currentGender];
             const msgDiv = document.createElement('div');
 
             if (sender === 'user') {
-                msgDiv.className = 'flex items-start justify-end gap-3';
+                msgDiv.className = "flex items-start justify-end gap-3";
                 msgDiv.innerHTML = `
-                    <div class="bg-brand-600 text-white rounded-2xl rounded-tr-none p-4 max-w-[85%] text-sm shadow-md">
+                    <div class="bg-gradient-to-r from-nicaragua-600 to-nicaragua-700 text-white rounded-2xl rounded-tr-none p-3.5 max-w-[85%] text-xs sm:text-sm shadow-md">
                         ${escapeHtml(text)}
                     </div>
                 `;
             } else {
-                msgDiv.className = 'flex items-start gap-3';
+                msgDiv.className = "flex items-start gap-3";
                 let cardHTML = '';
                 if (cardData) {
                     cardHTML = `
-                        <div class="mt-3 bg-slate-900/90 p-3.5 rounded-xl border border-brand-500/30 flex items-center gap-3">
-                            <div class="w-12 h-12 bg-gradient-to-tr from-brand-600 to-accent-500 rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0">
-                                <i class="fa-solid ${cardData.icon}"></i>
+                        <div class="mt-3 bg-slate-900 p-3.5 rounded-xl border border-nicaragua-500/30 flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-tr from-nicaragua-600 to-accent-500 rounded-xl flex items-center justify-center text-white text-xl flex-shrink-0">
+                                <i class="fa-solid ${cardData.icon || 'fa-hands-asl-interpreting'}"></i>
                             </div>
                             <div>
-                                <span class="text-xs text-brand-400 font-semibold block">Traducción a Señas (${document.getElementById('sim-dialect').value})</span>
-                                <h5 class="text-sm font-bold text-white">${cardData.title}</h5>
-                                <p class="text-xs text-slate-300 mt-1">${cardData.description}</p>
+                                <span class="text-[10px] text-accent-400 font-bold uppercase block">Seña ISN (${currentDepartment})</span>
+                                <h5 class="text-xs sm:text-sm font-bold text-white">${cardData.title}</h5>
+                                <p class="text-xs text-slate-300 mt-0.5">${cardData.desc}</p>
                             </div>
                         </div>
                     `;
                 }
 
                 msgDiv.innerHTML = `
-                    <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
-                        <i class="fa-solid fa-robot"></i>
+                    <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-nicaragua-600 to-accent-500 flex-shrink-0 flex items-center justify-center text-white text-sm font-bold shadow-md">
+                        <i class="fa-solid ${avatar.icon}"></i>
                     </div>
-                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm shadow-md">
+                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-xs sm:text-sm shadow-md space-y-2">
                         <p>${text}</p>
                         ${cardHTML}
                     </div>
@@ -838,53 +956,57 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        function respondToText(text) {
-            let foundKey = Object.keys(signDictionary).find(key => text.includes(key));
-            const dialect = document.getElementById('sim-dialect').value;
+        // INTELLIGENT BOT RESPONSE SIMULATOR (ISN & NICARAGUA SPECIFIC)
+        function generateBotResponse(text) {
+            const deptObj = nicaraguaData[currentDepartment];
+            const avatar = genderAvatars[currentGender];
 
-            if (foundKey) {
-                const data = signDictionary[foundKey];
-                addMessageToSim('bot', `Aquí tienes la interpretación correspondiente en <strong>${dialect}</strong>:`, data);
-            } else {
-                // Default dactilology or general response
-                const fallbackData = {
-                    title: `Señas para: "${text.substring(0, 15)}"`,
-                    icon: 'fa-hands',
-                    description: `Analizando estructura sintáctica en ${dialect}. Generando secuencia de señas y postura recomendada.`
-                };
-                addMessageToSim('bot', `Procesé tu consulta "${escapeHtml(text)}". Aquí está la simulación de traducción:`, fallbackData);
+            if (text.includes('escuela') || text.includes('colegio')) {
+                addMessageToChat('bot', `En <strong>ISN (Idioma de Señas Nicaragüense)</strong>, la seña para "Escuela" se realiza colocando la mano no dominante plana como un libro y dando dos suaves golpecitos con la palma dominante encima.`, {
+                    title: 'Escuela / Centro Escolar',
+                    icon: 'fa-school',
+                    desc: `Uso habitual en ${deptObj.name}: Representa la casa del conocimiento escolar.`
+                });
+            } 
+            else if (text.includes('maestro') || text.includes('profesor') || text.includes('docente')) {
+                addMessageToChat('bot', `Para decir "Maestro/Profesor" en ISN: Realizas la seña de "Enseñar" (manos a la altura de las sienes apuntando hacia adelante) seguida de la seña de "Persona".`, {
+                    title: 'Maestro / Profesor (ISN)',
+                    icon: 'fa-chalkboard-user',
+                    desc: 'Aplica para docentes en educación primaria e inclusiva de Nicaragua.'
+                });
+            }
+            else if (text.includes('historia') || text.includes('ley')) {
+                addMessageToChat('bot', `El ISN nació en los años 80 en Managua cuando cientos de niños sordos crearon su propio idioma. En Nicaragua, la <strong>Ley 672</strong> reconoce el ISN como lengua oficial de la comunidad sorda.`);
+            }
+            else if (text.includes('centro') || text.includes('depto') || text.includes('departamento') || text.includes('escuelas')) {
+                const schoolNames = deptObj.escuelas.map(e => `• <strong>${e.name}</strong> (${e.location})`).join('<br>');
+                addMessageToChat('bot', `En el departamento de <strong>${deptObj.name}</strong> tenemos registrados los siguientes centros de educación especial e inclusivos:<br><br>${schoolNames}`);
+            }
+            else {
+                addMessageToChat('bot', `He procesado tu consulta sobre "<em>${escapeHtml(text)}</em>". Como tu intérprete ${avatar.badge} en <strong>${deptObj.name}</strong>, te recuerdo que todas las señas escolares siguen la norma oficial del Diccionario de ISN de Nicaragua.`, {
+                    title: `Consulta Escolar ISN`,
+                    icon: 'fa-book-bookmark',
+                    desc: `Práctica guiada en ${deptObj.name} con el MINED.`
+                });
             }
         }
 
-        function simulateVoiceInput() {
-            const input = document.getElementById('sim-input');
-            input.placeholder = "Escuchando voz...";
-            setTimeout(() => {
-                input.value = "Gracias por tu ayuda";
-                input.placeholder = "Escribe un mensaje para traducir...";
-            }, 1500);
+        function clearSimChat() {
+            resetChatMessages();
         }
 
-        function clearChat() {
-            const container = document.getElementById('sim-messages');
-            container.innerHTML = `
-                <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-brand-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="bg-slate-800 text-slate-100 rounded-2xl rounded-tl-none p-4 max-w-[85%] text-sm space-y-2 shadow-md">
-                        <p>Chat reiniciado. ¿En qué seña deseas practicar?</p>
-                    </div>
-                </div>
-            `;
+        function scrollToSimulator() {
+            document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Floating Widget Handler
-        function handleWidgetSubmit(e) {
-            e.preventDefault();
-            const input = document.getElementById('widget-input');
-            const text = input.value.trim();
-            if (!text) return;
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
 
-            const container = document.getElementById('widget-messages');
-            
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
